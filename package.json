@@ -1,0 +1,20 @@
+{
+  "name": "BlackBox",
+  "version": "1.0.0",
+  "description": "BlackBox provides a repl for applying the function BlackBox.transform to the input to the repl.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxxcarlson/blackbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jxxcarlson/blackbox/issues"
+  },
+  "homepage": "https://github.com/jxxcarlson/blackbox#readme"
+}

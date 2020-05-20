@@ -93,7 +93,15 @@ commandProcessor model cmdString =
             model |> withCmd (put helpText)
 
         ( Just ":show", _ ) ->
-            model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file contents"))
+            model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
+
+        ( Just ":apply", _ ) ->
+            case model.fileContents of
+                Nothing ->
+                    model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
+
+                Just str ->
+                    model |> withCmd (put (BlackBox.transform (String.trim str)))
 
         ( _, _ ) ->
             model |> withCmd (put <| BlackBox.transform cmdString)
@@ -123,15 +131,13 @@ helpText =
 
     :help             help
     :get FILE         load FILE into memory
-    :show             show contents of memory (FILE)
+    :show             show contents of memory
+    :apply            apply BlackBox.transform to the contents of memory
 
-    :get FILE -t      get FILE and pass its contents to BlackBox.transform
-    :rcl              recall the stored file contents, pass them to BlackBox.transform
-
-    STRING            pass STRING to BlackBox.
+    STRING            apply BlackBox.transform to STRING
 
 Example using the default BlackBox:
 
-    > foo bar
-    Echo: foo bar
+    > test
+    Characters: 4 [test]
 """
