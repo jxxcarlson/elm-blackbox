@@ -24,3 +24,15 @@ user's discretion, whimsy, and creativity. Here is a demo:
     > :app
     Characters: 842
 ```
+
+## Running it from source
+
+```bash
+    $ sh make.#!/bin/sh
+```
+
+After compilation, this is enough:
+
+```bash
+    $ node src/repl.js
+```
