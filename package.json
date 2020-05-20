@@ -1,6 +1,6 @@
 {
   "name": "elm-bb",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "BlackBox provides a repl for applying the function BlackBox.transform to the input to the repl.",
   "main": "./src/repl.js",
   "scripts": {
