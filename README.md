@@ -1,14 +1,16 @@
-BlackBox provides a repl for applying the function
-BlackBox.transform to the input to the repl.
+# BlackBox
 
-One has
+BlackBox provides a repl for talking to Elm code
+that takes a string as input and produces a string
+as output:
 
 ```elm
     transform : String -> String
 ```
 
-This function can do arbitrary work and is left to the
-user's discretion, whimsy, and creativity. Here is a demo:
+The supplied `Blackbox.elm` file provides an uninteresting
+`transform` function for demonstration purposes.  You
+can replace it with whatever you like.
 
 ## Example using the default BlackBox:
 
@@ -25,14 +27,29 @@ user's discretion, whimsy, and creativity. Here is a demo:
     Characters: 842
 ```
 
-## Running it from source
+## Running Blackbox from source
 
 ```bash
-    $ sh make.#!/bin/sh
+    $ sh make.sh  
 ```
 
-After compilation, this is enough:
+After compilation, do this
 
 ```bash
     $ node src/repl.js
 ```
+
+## Installing via npm  
+
+Run `npm -g install` to install the repl  
+as `elm-bb`.  Then you can do
+
+```bash
+   $ elm-bb
+   > foo
+   Characters: 3
+```
+
+## Uninstalling
+
+Run `npm uninstall`
