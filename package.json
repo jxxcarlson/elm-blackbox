@@ -17,10 +17,10 @@
   "author": "",
   "license": "MIT",
   "bin": {
-    "elm-bb": ".src/repl.js"
+    "elm-bb": "./src/repl.js"
   },
   "files": [
-    "src/main.js"
+    "./src/main.js"
   ],
   "bugs": {
     "url": "https://github.com/jxxcarlson/blackbox/issues"
