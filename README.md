@@ -15,15 +15,15 @@ can replace it with whatever you like.
 ## Example using the default BlackBox:
 
 ```
-    > :help          ## show help screen
+    > :help                 # show help screen
 
-    > foo
+    > foo                   # apply transform to "foo"
     Characters: 3
 
-    > :get src/repl.js
+    > :get src/repl.js      # load file into memory
     File contents stored
 
-    > :app
+    > :app                  # apply transform to contents of memory
     Characters: 842
 ```
 
