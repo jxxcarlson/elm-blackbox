@@ -7,4 +7,4 @@ transform input_ =
         input =
             String.trim input_
     in
-    "Characters: " ++ String.fromInt (String.length input) ++ " [" ++ input ++ "]"
+    "Characters: " ++ String.fromInt (String.length input)

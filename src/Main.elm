@@ -95,7 +95,7 @@ commandProcessor model cmdString =
         ( Just ":show", _ ) ->
             model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
-        ( Just ":apply", _ ) ->
+        ( Just ":app", _ ) ->
             case model.fileContents of
                 Nothing ->
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
@@ -132,12 +132,18 @@ helpText =
     :help             help
     :get FILE         load FILE into memory
     :show             show contents of memory
-    :apply            apply BlackBox.transform to the contents of memory
+    :app              apply BlackBox.transform to the contents of memory
 
     STRING            apply BlackBox.transform to STRING
 
 Example using the default BlackBox:
 
-    > test
-    Characters: 4 [test]
+    > foo
+    Characters: 3
+
+    > :get src/repl.js
+    File contents stored
+    
+    > :app
+    Characters: 842
 """
