@@ -10,7 +10,8 @@ as output:
 
 The supplied `Blackbox.elm` file provides an uninteresting
 `transform` function for demonstration purposes.  You
-can replace it with whatever you like.
+can replace it with whatever you like — factor an integer into primes,
+run an RPN calculator, compute statistics, etc.
 
 ## Example using the default BlackBox:
 
