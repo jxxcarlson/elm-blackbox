@@ -20,7 +20,7 @@
     "elm-bb": ".src/repl.js"
   },
   "files": [
-    "main.js"
+    "src/main.js"
   ],
   "bugs": {
     "url": "https://github.com/jxxcarlson/blackbox/issues"
