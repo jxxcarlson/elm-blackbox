@@ -1,18 +1,27 @@
 {
-  "name": "BlackBox",
+  "name": "elm-bb",
   "version": "1.0.0",
   "description": "BlackBox provides a repl for applying the function BlackBox.transform to the input to the repl.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "elm make --optimize src/Main.elm --output=src/main.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jxxcarlson/blackbox.git"
   },
-  "keywords": [],
+  "keywords": [
+    "Elm",
+    "repl"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "bin": {
+    "elm-bb": ".src/repl.js"
+  },
+  "files": [
+    "main.js"
+  ],
   "bugs": {
     "url": "https://github.com/jxxcarlson/blackbox/issues"
   },
