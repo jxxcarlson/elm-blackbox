@@ -6,7 +6,7 @@
   "scripts": {
     "build": "elm make --optimize src/Main.elm --output=src/main.js",
     "start": "node src/repl.js",
-    "link": "ln -s ~/ dev/elm/projects/BlackBox/src/repl.js /usr/local/bin/elm-bb"
+    "link": "ln -s PATH_TO/src/repl.js /usr/local/bin/elm-bb"
   },
   "repository": {
     "type": "git",
