@@ -55,7 +55,7 @@ Then import your module as `Blackbox`.
 
 ## Compilation
 
-To compile `elm-bb` just run `sh makes.sh`.  To use your build locally,
+To compile `elm-bb` just run `sh make.sh`.  To use your build locally,
 run `node src/elm.repl`.
 
 If you use npm, you can compile with `npm run build` and run locally with `npm start`
