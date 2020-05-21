@@ -55,6 +55,8 @@ Then import your module as `Blackbox`.
 
 ## Compilation
 
+**Prerequisite:** you must have `node.js` installed 
+
 To compile `elm-bb` just run `sh make.sh`.  To use your build locally,
 run `node src/elm.repl`.
 
