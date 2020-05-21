@@ -68,7 +68,7 @@ Second, put this file in it:
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "elm-bb": "^0.9.3"
+    "elm-bb": "^0.9.5"
   }
 }
 ```

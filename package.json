@@ -1,6 +1,6 @@
 {
   "name": "elm-bb",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "BlackBox provides a repl for runnng Elm code from the command line.",
   "main": "./src/repl.js",
   "scripts": {
