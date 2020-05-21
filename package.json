@@ -1,11 +1,12 @@
 {
   "name": "elm-bb",
-  "version": "0.9.6",
+  "version": "1.0.0",
   "description": "BlackBox provides a repl for runnng Elm code from the command line.",
   "main": "./src/repl.js",
   "scripts": {
-    "init": "npm init -y",
-    "install": "elm make --optimize src/Main.elm --output=src/main.js"
+    "build": "elm make --optimize src/Main.elm --output=src/main.js",
+    "start": "node src/repl.js",
+    "link": "ln -s ~/ dev/elm/projects/BlackBox/src/repl.js /usr/local/bin/elm-bb"
   },
   "repository": {
     "type": "git",

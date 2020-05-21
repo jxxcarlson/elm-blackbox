@@ -1,10 +1,10 @@
 port module Main exposing (main)
 
-import BlackBox
 import Cmd.Extra exposing (withCmd, withCmds, withNoCmd)
 import Json.Decode as D
 import Json.Encode as E
 import Platform exposing (Program)
+import Wordcount as Blackbox
 
 
 port get : (String -> msg) -> Sub msg
@@ -68,7 +68,7 @@ update msg model =
                     model |> withCmd (put "Couldn't load file")
 
                 Just data ->
-                    { model | fileContents = Just data } |> withCmd (put <| BlackBox.transform data)
+                    { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform data)
 
 
 commandProcessor : Model -> String -> ( Model, Cmd Msg )
@@ -90,7 +90,7 @@ commandProcessor model cmdString =
             loadFile model fileName
 
         ( Just ":help", _ ) ->
-            model |> withCmd (put BlackBox.helpText)
+            model |> withCmd (put Blackbox.helpText)
 
         ( Just ":show", _ ) ->
             model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
@@ -101,10 +101,10 @@ commandProcessor model cmdString =
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
                 Just str ->
-                    model |> withCmd (put (BlackBox.transform (String.trim str)))
+                    model |> withCmd (put (Blackbox.transform (String.trim str)))
 
         ( _, _ ) ->
-            model |> withCmd (put <| BlackBox.transform cmdString)
+            model |> withCmd (put <| Blackbox.transform cmdString)
 
 
 loadFile model fileName =

@@ -1,91 +1,80 @@
-# BlackBox
+# Elm-bb
 
-BlackBox provides a repl for talking to Elm code
+Elm-bb provides a repl for talking to Elm code
 that takes a string as input and produces a string
-as output:
+as output. You determine what the repl does by defining
+a function
 
 ```elm
-    transform : String -> String
+    Blackbox.transform : String -> String
 ```
 
-The supplied `Blackbox.elm` file provides an uninteresting
-`transform` function for demonstration purposes: it imitates
-the Unix command `wc`.  You can modify the code of Blackbox
-to make it do whatever you like — factor an integer into primes,
-run an RPN calculator, compute statistics, etc.
+which you import in module `Main` like this:
 
-## Example using the default BlackBox:
-
-```
-    $ npm install -g elm-bb
-    $ elm-bb
-
-    > :help                 # show help screen
-
-    > foo bar               # apply transform to "foo bar" -- report lines, words, chars
-    1, 2, 7
-
-    > :get src/repl.js      # load file into memory and apply transform to it
-    42, 97, 863
-
-    > :app                  # apply transform to contents of memory
-    42, 97, 863
+```elm
+import Wordcount as Blackbox
 ```
 
-To uninstall, run `npm uninstall elm-bb`.
+If `Wordcount` is the imported module, the repl
+acts like an implementation  of Unix `wc`:
 
-## Running Blackbox from source
 
 ```bash
-    $ sh make.sh  
-    $ node src/repl.js
+    $ elm-bb
+
     > foo bar
     1, 2, 7
+
+    > :get src/repl.js
+    42, 97, 863
+```
+On the other hand, if you say `import Factor as Blackbox`,
+the repl will factor integers into primes.
+
+```bash
+    $ elm-bb
+
+    > 1234567
+    9721, 127
+
+    > 293
+    293
 ```
 
-## Customizing
+# Making elm-bb work for you
 
-For a customized BlackBox,  proceed as described below.
+To make `elm-repl` work for you, write  module that exports
+a `transform` function as above, and also a string `helpText`.
+Here is what happens with the default installation:
 
-### Set up
+```elm  
+$ elm-bb
 
-First, make a directory somewhere — let's call it bb.
-Second, put the text below in a file `package.json`
+Type ':help' for help
 
-```
-{
-  "name": "bb",
-  "version": "1.0.0",
-  "description": "",
-  "main": "node_modules/.bin/elm-bb",
-  "scripts": {
-    "edit": "atom node_modules/elm-bb/src/BlackBox.elm",
-    "build": "cd node_modules/elm-bb && sh make.sh",
-    "elm-bb": "./node_modules/.bin/elm-bb",
-    "link": "ln -s PATH_TO/src/repl.js /usr/local/bin/elm-bb"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "elm-bb": "^0.9.6 "
-  }
-}
+> :help
+Commands:
+
+   :help             help
+   :get FILE         load FILE into memory, apply BlackBox.transform to it
+   :show             show contents of memory
+   :app              apply BlackBox.transform to the contents of memory
+
+   STRING            apply BlackBox.transform to STRING
+
+Example using the default BlackBox ...
 ```
 
-If you wish, change 'atom' to your favorite editor.  Third, run `npm install`.
-Test your installation with `npm run elm-bb`.
+## Compilation
 
-### Edit and compile
+To compile `elm-bb` just run `sh makes.sh`.  To test it locally,
+run `node src/elm.repl`.
 
-First, edit `./node_modules/elm-bb/src/Main.elm`.  If `package.json`
-is configured to run your editor, you can say `npm run edit`.
+If you use npm, compile with `npm run build` and test locally with `npm start`
 
-Second, say `npm run build`.
 
-You have now customized `elm-bb` and can test it with `npm run elm-bb`
+## Linking
 
-### Link
-
-To install `elm-bb` as a system-wide command, edit `PATH_TO` in `package.json`,
-then say `npm run link`.
+To link to the global command  `elm-bb`, edit `PATH_TO` in the `link` script
+of `package.json`, then run `npm link`.  Or just paste the link command
+into the terminal.

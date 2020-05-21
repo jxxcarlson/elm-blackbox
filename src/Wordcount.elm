@@ -1,4 +1,4 @@
-module BlackBox exposing (helpText, transform)
+module Wordcount exposing (helpText, transform)
 
 
 transform : String -> String
