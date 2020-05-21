@@ -64,7 +64,7 @@ If you use npm, you can compile with `npm run build` and run locally with `npm s
 ## Linking
 
 To link to the global command  `elm-bb`, edit `PATH_TO` in the `link` script
-of `package.json`, then run `npm link`.  Or just paste the link command
+of `package.json`, then say `npm run link`.  Or just paste the link command
 into the terminal.
 
 ## Note on help
