@@ -9,7 +9,7 @@ a function
     transform : String -> String
 ```
 
-in module `Main`.  Thus, if a `transform` function
+in module `Main`.  To be precise, if a `transform` function
 is exposed by a module `Wordcount`, we say
 
 ```elm
