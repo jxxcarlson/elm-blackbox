@@ -68,7 +68,7 @@ update msg model =
                     model |> withCmd (put "Couldn't load file")
 
                 Just data ->
-                    { model | fileContents = Just data } |> withCmd (put "File contents stored")
+                    { model | fileContents = Just data } |> withCmd (put <| BlackBox.transform data)
 
 
 commandProcessor : Model -> String -> ( Model, Cmd Msg )
@@ -90,7 +90,7 @@ commandProcessor model cmdString =
             loadFile model fileName
 
         ( Just ":help", _ ) ->
-            model |> withCmd (put helpText)
+            model |> withCmd (put BlackBox.helpText)
 
         ( Just ":show", _ ) ->
             model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
@@ -124,26 +124,3 @@ decodeFileContents value =
 
         Err _ ->
             Nothing
-
-
-helpText =
-    """Commands:
-
-    :help             help
-    :get FILE         load FILE into memory
-    :show             show contents of memory
-    :app              apply BlackBox.transform to the contents of memory
-
-    STRING            apply BlackBox.transform to STRING
-
-Example using the default BlackBox:
-
-    > foo
-    Characters: 3
-
-    > :get src/repl.js
-    File contents stored
-    
-    > :app
-    Characters: 842
-"""

@@ -9,48 +9,81 @@ as output:
 ```
 
 The supplied `Blackbox.elm` file provides an uninteresting
-`transform` function for demonstration purposes.  You
-can modify it with to make it do whatever you like — factor an integer into primes,
+`transform` function for demonstration purposes: it imitates
+the Unix command `wc`.  You can modify the code of Blackbox
+to make it do whatever you like — factor an integer into primes,
 run an RPN calculator, compute statistics, etc.
 
 ## Example using the default BlackBox:
 
 ```
+    $ npm install -g elm-bb
+    $ elm-bb
+
     > :help                 # show help screen
 
-    > foo                   # apply transform to "foo"
-    Characters: 3
+    > foo bar               # apply transform to "foo bar" -- report lines, words, chars
+    1, 2, 7
 
-    > :get src/repl.js      # load file into memory
-    File contents stored
+    > :get src/repl.js      # load file into memory and apply transform to it
+    42, 97, 863
 
     > :app                  # apply transform to contents of memory
-    Characters: 842
+    42, 97, 863
 ```
+
+To uninstall, run `npm uninstall elm-bb`.
 
 ## Running Blackbox from source
 
 ```bash
     $ sh make.sh  
-```
-
-After compilation, do this
-
-```bash
     $ node src/repl.js
+    > foo bar
+    1, 2, 7
 ```
 
-## Installing via npm  
+## Customizing
 
-Run `npm -g install` to install the repl  
-as `elm-bb`.  Then you can do
+We shall see how to set up a project to customize
+elm-blackbox.
 
-```bash
-   $ elm-bb
-   > foo
-   Characters: 3
+### Set-up
+
+First, make a directory somewhere — let's call it bb.
+Second, put this file in it:
+
+```
+{
+  "name": "bb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node_modules/.bin/elm-bb",
+  "scripts": {
+    "edit": "atom node_modules/elm-bb/src/BlackBox.elm",
+    "build": "cd node_modules/elm-bb && sh make.sh",
+    "elm-bb": "./node_modules/.bin/elm-bb"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "elm-bb": "^0.9.3"
+  }
+}
 ```
 
-## Uninstalling
+If you wish, change 'atom' to your favorite editor.  Third, run `npm install`
 
-Run `npm uninstall`
+### Changing BlackBox
+
+First, edit `./node_modules/elm-bb/src/Main.elm`.  If `package.json`
+is configured to run your editor, you can say `npm run edit`.
+
+Second, say `npm run build`.
+
+You have customized `elm-bb` and can test it with `npm run elm-bb`
+
+### Linking
+
+To install `elm-bb` as a system-wide command, do ........

@@ -4,6 +4,7 @@
   "description": "BlackBox provides a repl for runnng Elm code from the command line.",
   "main": "./src/repl.js",
   "scripts": {
+    "init": "npm init -y",
     "install": "elm make --optimize src/Main.elm --output=src/main.js"
   },
   "repository": {
