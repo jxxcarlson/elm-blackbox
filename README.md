@@ -46,7 +46,7 @@ the repl will factor integers into primes.
 In a word, changing what the `elm-bb` command does is as
 simple as changing black boxes and recompiling.
 
-# Making elm-bb work for you
+## Making elm-bb work for you
 
 To make `elm-bb` work for you, write  a module that exposes
 a `transform` function as above, and also a string `helpText`.
