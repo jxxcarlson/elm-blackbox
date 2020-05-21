@@ -47,7 +47,7 @@ To uninstall, run `npm uninstall elm-bb`.
 
 For a customized BlackBox,  proceed as described below.
 
-### Set-up
+### Set up
 
 First, make a directory somewhere — let's call it bb.
 Second, put the text below in a file `package.json`
@@ -75,7 +75,7 @@ Second, put the text below in a file `package.json`
 If you wish, change 'atom' to your favorite editor.  Third, run `npm install`.
 Test your installation with `npm run elm-bb`.
 
-### Changing BlackBox
+### Edit and compile
 
 First, edit `./node_modules/elm-bb/src/Main.elm`.  If `package.json`
 is configured to run your editor, you can say `npm run edit`.
@@ -84,6 +84,6 @@ Second, say `npm run build`.
 
 You have now customized `elm-bb` and can test it with `npm run elm-bb`
 
-### Linking
+### Link
 
 To install `elm-bb` as a system-wide command, do ........
