@@ -48,7 +48,7 @@ simple as changing black boxes and recompiling.
 
 # Making elm-bb work for you
 
-To make `elm-bb` work for you, write  module that exposes
+To make `elm-bb` work for you, write  a module that exposes
 a `transform` function as above, and also a string `helpText`.
 Then import your module as `Blackbox`.
 
