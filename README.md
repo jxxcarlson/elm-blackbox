@@ -51,7 +51,7 @@ elm-blackbox.
 ### Set-up
 
 First, make a directory somewhere — let's call it bb.
-Second, put this file in it:
+Second, put the text below in a file `package.json`
 
 ```
 {
@@ -68,7 +68,7 @@ Second, put this file in it:
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "elm-bb": "^0.9.5"
+    "elm-bb": "^0.9.5 "
   }
 }
 ```
@@ -82,7 +82,7 @@ is configured to run your editor, you can say `npm run edit`.
 
 Second, say `npm run build`.
 
-You have customized `elm-bb` and can test it with `npm run elm-bb`
+You have now customized `elm-bb` and can test it with `npm run elm-bb`
 
 ### Linking
 
