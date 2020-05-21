@@ -61,13 +61,14 @@ Second, put the text below in a file `package.json`
   "scripts": {
     "edit": "atom node_modules/elm-bb/src/BlackBox.elm",
     "build": "cd node_modules/elm-bb && sh make.sh",
-    "elm-bb": "./node_modules/.bin/elm-bb"
+    "elm-bb": "./node_modules/.bin/elm-bb",
+    "link": "ln -s PATH_TO/src/repl.js /usr/local/bin/elm-bb"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "elm-bb": "^0.9.5 "
+    "elm-bb": "^0.9.6 "
   }
 }
 ```
@@ -86,4 +87,5 @@ You have now customized `elm-bb` and can test it with `npm run elm-bb`
 
 ### Link
 
-To install `elm-bb` as a system-wide command, do ........
+To install `elm-bb` as a system-wide command, edit `PATH_TO` in `package.json`,
+then say `npm run link`.
