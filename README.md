@@ -45,7 +45,7 @@ To uninstall, run `npm uninstall elm-bb`.
 
 ## Customizing
 
-To edit and recompile BlackBox, proceed as described below.
+For a customized BlackBox,  proceed as described below.
 
 ### Set-up
 
