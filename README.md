@@ -72,7 +72,8 @@ Second, put the text below in a file `package.json`
 }
 ```
 
-If you wish, change 'atom' to your favorite editor.  Third, run `npm install`
+If you wish, change 'atom' to your favorite editor.  Third, run `npm install`.
+Test your installation with `npm run elm-bb`.
 
 ### Changing BlackBox
 
