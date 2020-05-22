@@ -4,7 +4,7 @@ import Cmd.Extra exposing (withCmd, withCmds, withNoCmd)
 import Json.Decode as D
 import Json.Encode as E
 import Platform exposing (Program)
-import Wordcount as Blackbox
+import Statistics as Blackbox
 
 
 port get : (String -> msg) -> Sub msg
