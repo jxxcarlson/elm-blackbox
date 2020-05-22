@@ -39,7 +39,8 @@ factorHelper divisor n factors =
 
 
 helpText =
-    """This program factors smallish numbers into primes, e.g:
+    """
+    This program factors smallish numbers into primes, e.g:
 
     > 1234567
     9721, 127
