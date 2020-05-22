@@ -84,6 +84,19 @@ Examples:
     > 1 2 3
     3 data points, mean = 2, stdev = 1
 
+    > :get data1.txt
+
+    362 data points
+    mean = 16.393, stdev = 10.681
+    max = 35.6, min = -11.1
+
+    > :head
+    # Maximum daily temperatures for New York City, 2019
+    # Source: https://www.climate.gov/maps-data/dataset/past-weather-zip-code-data-table
+    11.7
+    12.8
+    3.3
+
     > :get w.csv column=5:csv
 
     362 data points

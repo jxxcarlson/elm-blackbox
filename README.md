@@ -56,24 +56,37 @@ If you say `import Statistics as Blackbox`, the repl will compute statistics
 
 ```bash
     $ elm-bb
-    > 1 2 3 4
+    > 1 2 3
+    3 data points, mean = 2, stdev = 1
 
-    4 data points
-    mean = 2.5, stdev = 1.291
-    max = 4, min = 1
-
-    > :get nyc2019.txt
+    > :get data1.txt
 
     362 data points
     mean = 16.393, stdev = 10.681
     max = 35.6, min = -11.1
 
     > :head
-    # Maximum daily Centigrade temperatures for New York City, 2019
+    # Maximum daily temperatures for New York City, 2019
     # Source: https://www.climate.gov/maps-data/dataset/past-weather-zip-code-data-table
     11.7
     12.8
     3.3
+
+    > :get w.csv column=5:csv
+
+    362 data points
+    mean = 16.393, stdev = 10.681
+    max = 35.6, min = -11.1
+
+    > :app column=6:csv
+
+    362 data points
+    mean = 6.066, stdev = 9.695
+    max = 25, min = -18.3
+
+    > :get w.csv regression column=5:csv column=6:csv
+
+    m = 0.853, b = -7.915, r2 = 0.867    
 ```
 
 The file `nyc2019.txt` contains temperature data. Note the
