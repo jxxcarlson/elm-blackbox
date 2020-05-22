@@ -29,7 +29,7 @@ main =
 
 
 type alias Model =
-    { fileContents : Maybe String }
+    { residualCommand : String, fileContents : Maybe String }
 
 
 type Msg
@@ -43,7 +43,7 @@ type alias Flags =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    { fileContents = Nothing } |> withNoCmd
+    { residualCommand = "", fileContents = Nothing } |> withNoCmd
 
 
 subscriptions : Model -> Sub Msg
@@ -60,7 +60,24 @@ update msg model =
                     model |> withNoCmd
 
                 False ->
-                    commandProcessor model input
+                    let
+                        args =
+                            input
+                                |> String.split " "
+                                |> List.filter (\s -> s /= "")
+
+                        residualCmd =
+                            args
+                                |> List.drop 2
+                                |> String.join " "
+
+                        cmd =
+                            args
+                                |> List.take 2
+                                |> String.join " "
+                                |> String.trim
+                    in
+                    commandProcessor { model | residualCommand = residualCmd } cmd
 
         ReceivedDataFromJS value ->
             case decodeFileContents value of
@@ -71,8 +88,16 @@ update msg model =
                     let
                         cleanData =
                             removeComments data
+
+                        input =
+                            case model.residualCommand == "" of
+                                True ->
+                                    cleanData
+
+                                False ->
+                                    ":" ++ model.residualCommand ++ " " ++ cleanData
                     in
-                    { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform cleanData)
+                    { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform input)
 
 
 removeComments : String -> String
@@ -144,7 +169,6 @@ commandProcessor model cmdString =
                                 False ->
                                     arg_
                                         |> (\x -> ":" ++ x ++ "\n")
-                                        |> Debug.log "ARG"
                     in
                     model |> withCmd (put (Blackbox.transform <| (arg__ ++ removeComments str)))
 

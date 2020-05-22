@@ -14,7 +14,7 @@ transform input =
             processCommand input
 
         False ->
-            statistics input
+            statisticsOfString input
 
 
 processCommand : String -> String
@@ -43,51 +43,58 @@ applyCommand command data =
 
         Just commands ->
             Interpreter.execute commands data
-                |> String.join "\n"
-                |> String.replace "\"" ""
-                |> String.replace "," ""
-                |> Debug.log "DATA"
-                |> transform
+                |> List.map (String.toFloat >> Maybe.withDefault 0)
+                |> statistics
 
 
-statistics : String -> String
-statistics input =
+statisticsOfString : String -> String
+statisticsOfString input =
     case ParseData.parseNumbers (String.replace "," " " input) of
         Nothing ->
             "Error: numbers must be separated by spaces and newlines"
 
+        Just [] ->
+            "\n  No data processed. Maybe the file format is csv or some other format (space or tab-spaceDelimited)."
+                ++ "\n\n  Try :head to see what is in the file."
+                ++ "\n\n  You may need to say something like ':get FILENAME column=5:csv' or ':app column=5:csv'\n"
+
         Just data ->
-            let
-                m =
-                    SF.mean data |> roundTo 3 |> String.fromFloat
+            statistics data
 
-                s =
-                    SF.stdev data |> roundTo 3 |> String.fromFloat
 
-                max_ =
-                    List.Extra.maximumBy identity data
-                        |> Maybe.withDefault 0
-                        |> String.fromFloat
+statistics : List Float -> String
+statistics data =
+    let
+        m =
+            SF.mean data |> roundTo 3 |> String.fromFloat
 
-                min_ =
-                    List.Extra.minimumBy identity data
-                        |> Maybe.withDefault 0
-                        |> String.fromFloat
+        s =
+            SF.stdev data |> roundTo 3 |> String.fromFloat
 
-                n =
-                    List.length data |> String.fromInt
-            in
-            "\n"
-                ++ n
-                ++ " data points\nmean = "
-                ++ m
-                ++ ", stdev = "
-                ++ s
-                ++ "\nmax = "
-                ++ max_
-                ++ ", min = "
-                ++ min_
-                ++ "\n"
+        max_ =
+            List.Extra.maximumBy identity data
+                |> Maybe.withDefault 0
+                |> String.fromFloat
+
+        min_ =
+            List.Extra.minimumBy identity data
+                |> Maybe.withDefault 0
+                |> String.fromFloat
+
+        n =
+            List.length data |> String.fromInt
+    in
+    "\n"
+        ++ n
+        ++ " data points\nmean = "
+        ++ m
+        ++ ", stdev = "
+        ++ s
+        ++ "\nmax = "
+        ++ max_
+        ++ ", min = "
+        ++ min_
+        ++ "\n"
 
 
 helpText =

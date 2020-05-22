@@ -1,5 +1,6 @@
 module Statistics.Interpreter exposing (execute, executeCmd, sliceList)
 
+import Csv
 import List.Extra
 import Statistics.Commands exposing (Command(..), Format(..))
 
@@ -25,8 +26,11 @@ executeCmd command list =
         Column k format ->
             case format of
                 Csv ->
-                    list
-                        |> List.map (String.split ",")
+                    let
+                        data =
+                            Csv.parseWith "," (String.join "\n" list)
+                    in
+                    data.records
                         |> List.map (getItem (k - 1) >> String.trim)
 
                 Space ->
