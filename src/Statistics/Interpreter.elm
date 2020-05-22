@@ -1,7 +1,7 @@
 module Statistics.Interpreter exposing (execute, executeCmd, sliceList)
 
 import List.Extra
-import Statistics.Commands exposing (Command(..))
+import Statistics.Commands exposing (Command(..), Format(..))
 
 
 execute : List Command -> List String -> List String
@@ -22,13 +22,20 @@ executeCmd command list =
         Rows a b ->
             sliceList (a - 1) (b - 1) list
 
-        Column k ->
-            list
-                |> List.map (String.split ",")
-                |> List.map (getItem (k - 1))
+        Column k format ->
+            case format of
+                Csv ->
+                    list
+                        |> List.map (String.split ",")
+                        |> List.map (getItem (k - 1) >> String.trim)
 
-        F _ ->
-            list
+                Space ->
+                    list
+                        |> List.map
+                            (String.split " "
+                                >> List.filter (\x -> x /= "")
+                            )
+                        |> List.map (getItem (k - 1))
 
 
 getItem : Int -> List String -> String

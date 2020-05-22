@@ -1,4 +1,6 @@
-module Statistics.Commands exposing (Command(..), parse)
+module Statistics.Commands exposing (..)
+
+-- exposing (Command(..), parse)
 
 import Parser exposing (..)
 import Parser.Extras
@@ -7,13 +9,12 @@ import Parser.Extras
 type Command
     = Ignore Int
     | Rows Int Int
-    | Column Int
-    | F Format
+    | Column Int Format
 
 
 type Format
     = Csv
-    | SpaceDelimited
+    | Space
 
 
 parse : String -> Maybe (List Command)
@@ -33,24 +34,24 @@ commands =
 
 command : Parser Command
 command =
-    oneOf [ ignore, column, rows, format ]
+    oneOf [ ignore, column, rows ]
 
 
-format : Parser Command
+format : Parser Format
 format =
     oneOf [ csv, spaceDelimited ]
 
 
-csv : Parser Command
+csv : Parser Format
 csv =
-    succeed (F Csv)
+    succeed Csv
         |. symbol "csv"
         |. spaces
 
 
-spaceDelimited : Parser Command
+spaceDelimited : Parser Format
 spaceDelimited =
-    succeed (F SpaceDelimited)
+    succeed Space
         |. symbol "space"
         |. spaces
 
@@ -68,6 +69,8 @@ column =
     succeed Column
         |. symbol "column="
         |= int
+        |. symbol ":"
+        |= format
         |. spaces
 
 
