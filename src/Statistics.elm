@@ -1,7 +1,9 @@
 module Statistics exposing (helpText, transform)
 
 import List.Extra
+import Statistics.Commands as Commands
 import Statistics.Function as SF
+import Statistics.Interpreter as Interpreter
 import Statistics.ParseData as ParseData
 
 
@@ -17,7 +19,35 @@ transform input =
 
 processCommand : String -> String
 processCommand input =
-    input
+    let
+        lines =
+            String.lines input
+
+        command =
+            List.head lines
+                |> Maybe.withDefault ""
+                |> String.dropLeft 1
+
+        data =
+            lines
+                |> List.drop 1
+    in
+    applyCommand command data
+
+
+applyCommand : String -> List String -> String
+applyCommand command data =
+    case Commands.parse command of
+        Nothing ->
+            "Error parsing commands"
+
+        Just commands ->
+            Interpreter.execute commands data
+                |> String.join "\n"
+                |> String.replace "\"" ""
+                |> String.replace "," ""
+                |> Debug.log "DATA"
+                |> transform
 
 
 statistics : String -> String

@@ -96,10 +96,11 @@ commandProcessor model cmdString =
             List.head args
 
         arg =
-            List.head (List.drop 1 args)
+            List.drop 1 args
+                |> String.join " "
     in
     case ( cmd, arg ) of
-        ( Just ":get", Just fileName ) ->
+        ( Just ":get", fileName ) ->
             loadFile model fileName
 
         ( Just ":help", _ ) ->
@@ -136,14 +137,13 @@ commandProcessor model cmdString =
                 Just str ->
                     let
                         arg__ =
-                            case arg_ == Nothing of
+                            case arg_ == "" of
                                 True ->
                                     ""
 
                                 False ->
                                     arg_
-                                        |> Maybe.withDefault ""
-                                        |> (\x -> ":" ++ x ++ " ")
+                                        |> (\x -> ":" ++ x ++ "\n")
                                         |> Debug.log "ARG"
                     in
                     model |> withCmd (put (Blackbox.transform <| (arg__ ++ removeComments str)))
