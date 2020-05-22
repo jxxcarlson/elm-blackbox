@@ -37,6 +37,8 @@ helpText =
     :help             help
     :get FILE         load FILE into memory, apply BlackBox.transform to it
     :show             show contents of memory
+    :head             first five lines of memory
+    :tail             last five lines of memory
     :app              apply BlackBox.transform to the contents of memory
 
     STRING            apply BlackBox.transform to STRING

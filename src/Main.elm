@@ -68,7 +68,20 @@ update msg model =
                     model |> withCmd (put "Couldn't load file")
 
                 Just data ->
-                    { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform data)
+                    let
+                        cleanData =
+                            removeComments data
+                    in
+                    { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform cleanData)
+
+
+removeComments : String -> String
+removeComments input =
+    input
+        |> String.lines
+        |> List.filter (\line -> String.left 1 line /= "#")
+        |> String.join "\n"
+        |> String.trim
 
 
 commandProcessor : Model -> String -> ( Model, Cmd Msg )
@@ -95,16 +108,62 @@ commandProcessor model cmdString =
         ( Just ":show", _ ) ->
             model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
+        ( Just ":head", _ ) ->
+            model
+                |> withCmd
+                    (put
+                        (model.fileContents
+                            |> Maybe.map (head 5)
+                            |> Maybe.withDefault "no file loaded"
+                        )
+                    )
+
+        ( Just ":tail", _ ) ->
+            model
+                |> withCmd
+                    (put
+                        (model.fileContents
+                            |> Maybe.map (tail 5)
+                            |> Maybe.withDefault "no file loaded"
+                        )
+                    )
+
         ( Just ":app", _ ) ->
             case model.fileContents of
                 Nothing ->
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
                 Just str ->
-                    model |> withCmd (put (Blackbox.transform (String.trim str)))
+                    model |> withCmd (put (Blackbox.transform (removeComments str)))
 
         ( _, _ ) ->
-            model |> withCmd (put <| Blackbox.transform cmdString)
+            model |> withCmd (put <| Blackbox.transform (removeComments cmdString))
+
+
+
+-- HELPERS
+
+
+head : Int -> String -> String
+head k input =
+    input
+        |> String.lines
+        |> List.take k
+        |> String.join "\n"
+
+
+tail : Int -> String -> String
+tail k input =
+    let
+        lines =
+            String.lines input
+
+        n =
+            List.length lines
+    in
+    lines
+        |> List.drop (n - k - 1)
+        |> String.join "\n"
 
 
 loadFile model fileName =

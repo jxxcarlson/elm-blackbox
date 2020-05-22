@@ -1,52 +1,13 @@
-module Statistics exposing (getArg, helpText, transform)
+module Statistics exposing (helpText, transform)
 
-import Parser exposing (Parser)
+import List.Extra
+import Parser exposing ((|.), (|=), Parser)
 import Parser.Extras
 
 
 transform : String -> String
 transform input =
-    case String.left 1 input == ":" of
-        True ->
-            processCommand input
-
-        False ->
-            statistics input
-
-
-processCommand : String -> String
-processCommand command =
-    let
-        lines =
-            String.lines command
-
-        commandString =
-            List.head lines |> Maybe.withDefault ":noOp"
-
-        args_ =
-            String.words commandString
-
-        data =
-            List.drop 1 lines
-    in
-    "Command = " ++ command
-
-
-getArg : Int -> List String -> String
-getArg n args =
-    args
-        |> List.drop n
-        |> List.head
-        |> Maybe.withDefault ""
-
-
-statistics : String -> String
-statistics input_ =
-    let
-        input =
-            String.replace "\n" " " input_
-    in
-    case parseNumbers input of
+    case parseNumbers (String.replace "," " " input) of
         Nothing ->
             "Error: numbers must be separated by spaces and newlines"
 
@@ -58,10 +19,30 @@ statistics input_ =
                 s =
                     stdev data |> roundTo 3 |> String.fromFloat
 
+                max_ =
+                    List.Extra.maximumBy identity data
+                        |> Maybe.withDefault 0
+                        |> String.fromFloat
+
+                min_ =
+                    List.Extra.minimumBy identity data
+                        |> Maybe.withDefault 0
+                        |> String.fromFloat
+
                 n =
                     List.length data |> String.fromInt
             in
-            n ++ " data points, mean = " ++ m ++ ", stdev = " ++ s
+            "\n"
+                ++ n
+                ++ " data points\nmean = "
+                ++ m
+                ++ ", stdev = "
+                ++ s
+                ++ "\nmax = "
+                ++ max_
+                ++ ", min = "
+                ++ min_
+                ++ "\n"
 
 
 helpText =
@@ -70,6 +51,8 @@ helpText =
     :help             help
     :get FILE         load FILE into memory, apply BlackBox.transform to it
     :show             show contents of memory
+    :head             first five lines of memory
+    :tail             last five lines of memory
     :app              apply BlackBox.transform to the contents of memory
 
     STRING            apply BlackBox.transform to STRING
@@ -103,7 +86,21 @@ parseNumbers str =
 
 numbersParser : Parser (List Float)
 numbersParser =
-    Parser.Extras.many Parser.float
+    Parser.Extras.many signedNumber
+
+
+signedNumber : Parser Float
+signedNumber =
+    Parser.oneOf [ negativeNumber, Parser.float ]
+
+
+negativeNumber : Parser Float
+negativeNumber =
+    (Parser.succeed identity
+        |. Parser.symbol "-"
+        |= Parser.float
+    )
+        |> Parser.map (\x -> -x)
 
 
 mean : List Float -> Float
