@@ -168,3 +168,5 @@ more complex apps with black boxes that do nothing more than receive strings,
 compute, and send strings back.  On the other hand, it is definitely hackish.
 Nonetheless, I wanted to see how far I could get with this simple model.  It is
 definitely OK for some applications.
+
+The args feature does not complicate `Main.elm` too much and can be ignored if it is not needed.
