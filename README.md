@@ -137,5 +137,5 @@ Commands:
 
 The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:app` are
 defined in `Main.elm` and so are available regardless of what you use for the
-black box.  Comments (lines beginning with '#') are stripped out before
-`Blackbox.transform` is applied.
+black box.  Comments (lines beginning with '#') are stripped out of the
+contents of memory before `Blackbox.transform` is applied.
