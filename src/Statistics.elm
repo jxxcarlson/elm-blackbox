@@ -2,7 +2,7 @@ module Statistics exposing (helpText, transform)
 
 import List.Extra
 import Statistics.Function as SF
-import Statistics.Parse as SP
+import Statistics.ParseData as ParseData
 
 
 transform : String -> String
@@ -22,7 +22,7 @@ processCommand input =
 
 statistics : String -> String
 statistics input =
-    case SP.parseNumbers (String.replace "," " " input) of
+    case ParseData.parseNumbers (String.replace "," " " input) of
         Nothing ->
             "Error: numbers must be separated by spaces and newlines"
 

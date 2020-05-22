@@ -1,4 +1,4 @@
-module Statistics.Parse exposing (parseNumbers)
+module Statistics.ParseData exposing (parseNumbers)
 
 import Parser exposing ((|.), (|=), Parser)
 import Parser.Extras
