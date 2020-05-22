@@ -105,7 +105,11 @@ If you use npm, you can compile with `npm run build` and run locally with `npm s
 
 To link to the global command  `elm-bb`, edit `PATH_TO` in the `link` script
 of `package.json`, then say `npm run link`.  Or just paste the link command
-into the terminal.
+into the terminal:
+
+```bash 
+ln -s PATH_TO/src/repl.js /usr/local/bin/elm-bb
+```
 
 ## Note on help
 
