@@ -9,13 +9,18 @@ a function
     transform : String -> String
 ```
 
-in module `Main`.  For example, if a `transform` function
-is exposed by a module `Wordcount`, we say
+in module `Main`.   Below are three examples of what one can do
+with this setup.
+
+### Counting words
+
+Suppose we import `Wordcount` as `Blackbox`:
 
 ```elm
 import Wordcount as Blackbox
 ```
-In this case, the repl acts like an implementation  of Unix `wc`:
+
+Then the repl acts like an implementation  of Unix `wc`:
 
 
 ```bash
@@ -30,8 +35,10 @@ In this case, the repl acts like an implementation  of Unix `wc`:
 
 Note that `elm-bb` is the command you use start the repl.
 
-On the other hand, if you say `import Factor as Blackbox`,
-the repl will factor integers into primes.
+
+## Factoring integers
+
+If you say `import Factor as Blackbox`, the repl will factor integers into primes.
 
 ```bash
     $ elm-bb
@@ -42,6 +49,38 @@ the repl will factor integers into primes.
     > 293
     293
 ```
+
+## Statistics
+
+If you say `import Statistics as Blackbox`, the repl will compute statistics
+
+```bash
+    $ elm-bb
+    > 1 2 3 4
+
+    4 data points
+    mean = 2.5, stdev = 1.291
+    max = 4, min = 1
+
+    > :get nyc2019.txt
+
+    362 data points
+    mean = 16.393, stdev = 10.681
+    max = 35.6, min = -11.1
+
+    > :head
+    # Maximum daily Centigrade temperatures for New York City, 2019
+    # Source: https://www.climate.gov/maps-data/dataset/past-weather-zip-code-data-table
+    11.7
+    12.8
+    3.3
+```
+
+The file `nyc2019.txt` contains temperature data. Note the
+result of the `:head` command.  The first two lines of the
+file are comments explaining the nature of the data. comments
+in this form are stripped out before processing.  Data elements can be
+separated by any combination of spaces, commas, and newlines.
 
 In a word, changing what the `elm-bb` command does is as
 simple as changing black boxes and recompiling.
@@ -55,7 +94,7 @@ Then import your module as `Blackbox`.
 
 ## Compilation
 
-**Prerequisite:** you must have `node.js` installed 
+**Prerequisite:** you must have `node.js` installed
 
 To compile `elm-bb` just run `sh make.sh`.  To use your build locally,
 run `node src/elm.repl`.
@@ -84,6 +123,8 @@ Commands:
    :help             help
    :get FILE         load FILE into memory, apply BlackBox.transform to it
    :show             show contents of memory
+   :head             first five lines of memory
+   :tail             last five lines of memory
    :app              apply BlackBox.transform to the contents of memory
 
    STRING            apply BlackBox.transform to STRING
