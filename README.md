@@ -128,5 +128,9 @@ Commands:
 
    STRING            apply BlackBox.transform to STRING
 
-Example using the default BlackBox ...
+...
 ```
+
+The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:app` are
+defined in `Main.elm` and so are available regardless of what you use for the
+black box.
