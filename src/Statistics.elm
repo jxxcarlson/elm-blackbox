@@ -100,25 +100,38 @@ statistics data =
 helpText =
     """Commands:
 
-    :help             help
-    :get FILE         load FILE into memory, apply BlackBox.transform to it
-    :show             show contents of memory
-    :head             first five lines of memory
-    :tail             last five lines of memory
-    :app              apply BlackBox.transform to the contents of memory
+    :help             Help
+    :get FILE         Load FILE into memory, apply Statistics.transform to it
+    :show             Show contents of memory
+    :head             First five lines of memory
+    :tail             Last five lines of memory
+    :app              Apply Statistics.transform to the contents of memory
 
-    STRING            apply BlackBox.transform to STRING
+    STRING            Apply Statistics.transform to STRING
 
-Example using the default BlackBox:
+Commands with arguments:
+
+    :get w.csv column=5:csv         Load w.csv and run statistics on column 5
+    :app column=5:csv rows=:2:32    Same, but use only rows 2 through 32
+    :get x.txt column=2:space       Space-delimited file
+    :get y.txt column=2:tab         Tab-delimited file (not yet implemented)
+
+Examples:
 
     > 1 2 3
     3 data points, mean = 2, stdev = 1
 
-    > :get src/repl.js      # load file into memory and apply transform to it
-    42, 97, 863
+    > :get w.csv column=5:csv
 
-    > :app                  # apply transform to contents of memory
-    42, 97, 863
+    362 data points
+    mean = 16.393, stdev = 10.681
+    max = 35.6, min = -11.1
+
+    > :app column=6:csv
+
+    362 data points
+    mean = 6.066, stdev = 9.695
+    max = 25, min = -18.3
 """
 
 

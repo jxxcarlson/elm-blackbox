@@ -61,21 +61,8 @@ update msg model =
 
                 False ->
                     let
-                        args =
-                            input
-                                |> String.split " "
-                                |> List.filter (\s -> s /= "")
-
-                        residualCmd =
-                            args
-                                |> List.drop 2
-                                |> String.join " "
-
-                        cmd =
-                            args
-                                |> List.take 2
-                                |> String.join " "
-                                |> String.trim
+                        ( cmd, residualCmd ) =
+                            splitCommand input
                     in
                     commandProcessor { model | residualCommand = residualCmd } cmd
 
@@ -98,15 +85,6 @@ update msg model =
                                     ":" ++ model.residualCommand ++ " " ++ cleanData
                     in
                     { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform input)
-
-
-removeComments : String -> String
-removeComments input =
-    input
-        |> String.lines
-        |> List.filter (\line -> String.left 1 line /= "#")
-        |> String.join "\n"
-        |> String.trim
 
 
 commandProcessor : Model -> String -> ( Model, Cmd Msg )
@@ -177,7 +155,61 @@ commandProcessor model cmdString =
 
 
 
+-- FILE HANDLING
+
+
+loadFile model fileName =
+    ( model, loadFileCmd fileName )
+
+
+loadFileCmd : String -> Cmd msg
+loadFileCmd filePath =
+    sendFileName (E.string <| filePath)
+
+
+decodeFileContents : E.Value -> Maybe String
+decodeFileContents value =
+    case D.decodeValue D.string value of
+        Ok str ->
+            Just str
+
+        Err _ ->
+            Nothing
+
+
+
 -- HELPERS
+
+
+splitCommand : String -> ( String, String )
+splitCommand input =
+    let
+        args =
+            input
+                |> String.split " "
+                |> List.filter (\s -> s /= "")
+
+        residualCmd =
+            args
+                |> List.drop 2
+                |> String.join " "
+
+        cmd =
+            args
+                |> List.take 2
+                |> String.join " "
+                |> String.trim
+    in
+    ( cmd, residualCmd )
+
+
+removeComments : String -> String
+removeComments input =
+    input
+        |> String.lines
+        |> List.filter (\line -> String.left 1 line /= "#")
+        |> String.join "\n"
+        |> String.trim
 
 
 head : Int -> String -> String
@@ -200,22 +232,3 @@ tail k input =
     lines
         |> List.drop (n - k - 1)
         |> String.join "\n"
-
-
-loadFile model fileName =
-    ( model, loadFileCmd fileName )
-
-
-loadFileCmd : String -> Cmd msg
-loadFileCmd filePath =
-    sendFileName (E.string <| filePath)
-
-
-decodeFileContents : E.Value -> Maybe String
-decodeFileContents value =
-    case D.decodeValue D.string value of
-        Ok str ->
-            Just str
-
-        Err _ ->
-            Nothing
