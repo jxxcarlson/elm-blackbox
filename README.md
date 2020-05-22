@@ -139,3 +139,32 @@ The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:app` are
 defined in `Main.elm` and so are available regardless of what you use for the
 black box.  Comments (lines beginning with '#') are stripped out of the
 contents of memory before `Blackbox.transform` is applied.
+
+## Advanced (hackish) usage  
+
+There are some hooks in `Main.elm` for passing pseudo-arguments to the black box.
+Since a black box only accepts strings, the idea is to send a string of the form
+
+```
+    INPUT = :CMD ARG1 ARG2 ... \nREST_OF_INPUT  
+```
+
+INPUT is separated into
+
+```
+   CMD_STRING = CMD ARG1 ARG2
+```
+
+and
+
+```
+    DATA = REST_OF_INPUT
+```
+
+The leading colon singles out INPUT for special handling.  As an example
+of this feature, see the `Statistics` black box.  I am of mixed opinion
+on the wisdom of this approach.  On the one hand, it enables one to build
+more complex apps with black boxes that do nothing more than receive strings,
+compute, and send strings back.  On the other hand, it is definitely hackish.
+Nonetheless, I wanted to see how far I could get with this simple model.  It is
+definitely OK for some applications.
