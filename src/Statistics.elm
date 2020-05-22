@@ -1,23 +1,38 @@
 module Statistics exposing (helpText, transform)
 
 import List.Extra
-import Parser exposing ((|.), (|=), Parser)
-import Parser.Extras
+import Statistics.Function as SF
+import Statistics.Parse as SP
 
 
 transform : String -> String
 transform input =
-    case parseNumbers (String.replace "," " " input) of
+    case String.left 1 input == ":" of
+        True ->
+            processCommand input
+
+        False ->
+            statistics input
+
+
+processCommand : String -> String
+processCommand input =
+    input
+
+
+statistics : String -> String
+statistics input =
+    case SP.parseNumbers (String.replace "," " " input) of
         Nothing ->
             "Error: numbers must be separated by spaces and newlines"
 
         Just data ->
             let
                 m =
-                    mean data |> roundTo 3 |> String.fromFloat
+                    SF.mean data |> roundTo 3 |> String.fromFloat
 
                 s =
-                    stdev data |> roundTo 3 |> String.fromFloat
+                    SF.stdev data |> roundTo 3 |> String.fromFloat
 
                 max_ =
                     List.Extra.maximumBy identity data
@@ -74,63 +89,6 @@ Example using the default BlackBox:
 -- HELPERS
 
 
-parseNumbers : String -> Maybe (List Float)
-parseNumbers str =
-    case Parser.run numbersParser str of
-        Ok numbers ->
-            Just numbers
-
-        Err _ ->
-            Nothing
-
-
-numbersParser : Parser (List Float)
-numbersParser =
-    Parser.Extras.many signedNumber
-
-
-signedNumber : Parser Float
-signedNumber =
-    Parser.oneOf [ negativeNumber, Parser.float ]
-
-
-negativeNumber : Parser Float
-negativeNumber =
-    (Parser.succeed identity
-        |. Parser.symbol "-"
-        |= Parser.float
-    )
-        |> Parser.map (\x -> -x)
-
-
-mean : List Float -> Float
-mean numbers =
-    let
-        n =
-            List.length numbers |> toFloat
-    in
-    List.sum numbers / n
-
-
-variance : List Float -> Float
-variance numbers =
-    numbers
-        |> center
-        |> sumOfSquares
-
-
-stdev : List Float -> Float
-stdev numbers =
-    let
-        n =
-            List.length numbers |> toFloat
-
-        averageVariance =
-            variance numbers / (n - 1)
-    in
-    sqrt averageVariance
-
-
 roundTo : Int -> Float -> Float
 roundTo n x =
     let
@@ -142,19 +100,3 @@ roundTo n x =
         |> round
         |> toFloat
         |> (\u -> u / factor)
-
-
-center : List Float -> List Float
-center numbers =
-    let
-        m =
-            mean numbers
-    in
-    List.map (\x -> x - m) numbers
-
-
-sumOfSquares : List Float -> Float
-sumOfSquares numbers =
-    numbers
-        |> List.map (\x -> x * x)
-        |> List.sum

@@ -128,13 +128,25 @@ commandProcessor model cmdString =
                         )
                     )
 
-        ( Just ":app", _ ) ->
+        ( Just ":app", arg_ ) ->
             case model.fileContents of
                 Nothing ->
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
                 Just str ->
-                    model |> withCmd (put (Blackbox.transform (removeComments str)))
+                    let
+                        arg__ =
+                            case arg_ == Nothing of
+                                True ->
+                                    ""
+
+                                False ->
+                                    arg_
+                                        |> Maybe.withDefault ""
+                                        |> (\x -> ":" ++ x ++ " ")
+                                        |> Debug.log "ARG"
+                    in
+                    model |> withCmd (put (Blackbox.transform <| (arg__ ++ removeComments str)))
 
         ( _, _ ) ->
             model |> withCmd (put <| Blackbox.transform (removeComments cmdString))
