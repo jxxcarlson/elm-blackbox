@@ -10,6 +10,7 @@ type Command
     = Ignore Int
     | Rows Int Int
     | Column Int Format
+    | Regression
 
 
 type Format
@@ -34,7 +35,7 @@ commands =
 
 command : Parser Command
 command =
-    oneOf [ ignore, column, rows ]
+    oneOf [ regression, ignore, column, rows ]
 
 
 format : Parser Format
@@ -46,6 +47,13 @@ csv : Parser Format
 csv =
     succeed Csv
         |. symbol "csv"
+        |. spaces
+
+
+regression : Parser Command
+regression =
+    succeed Regression
+        |. symbol "regression"
         |. spaces
 
 

@@ -43,8 +43,6 @@ applyCommand command data =
 
         Just commands ->
             Interpreter.execute commands data
-                |> List.map (String.toFloat >> Maybe.withDefault 0)
-                |> statistics
 
 
 statisticsOfString : String -> String
@@ -59,55 +57,20 @@ statisticsOfString input =
                 ++ "\n\n  You may need to say something like ':get FILENAME column=5:csv' or ':app column=5:csv'\n"
 
         Just data ->
-            statistics data
-
-
-statistics : List Float -> String
-statistics data =
-    let
-        m =
-            SF.mean data |> roundTo 3 |> String.fromFloat
-
-        s =
-            SF.stdev data |> roundTo 3 |> String.fromFloat
-
-        max_ =
-            List.Extra.maximumBy identity data
-                |> Maybe.withDefault 0
-                |> String.fromFloat
-
-        min_ =
-            List.Extra.minimumBy identity data
-                |> Maybe.withDefault 0
-                |> String.fromFloat
-
-        n =
-            List.length data |> String.fromInt
-    in
-    "\n"
-        ++ n
-        ++ " data points\nmean = "
-        ++ m
-        ++ ", stdev = "
-        ++ s
-        ++ "\nmax = "
-        ++ max_
-        ++ ", min = "
-        ++ min_
-        ++ "\n"
+            SF.statistics data
 
 
 helpText =
     """Commands:
 
     :help             Help
-    :get FILE         Load FILE into memory, apply Statistics.transform to it
+    :get FILE         Load FILE into memory, compute mean, standard deviation, etc.
     :show             Show contents of memory
     :head             First five lines of memory
     :tail             Last five lines of memory
-    :app              Apply Statistics.transform to the contents of memory
+    :app              Compute mean, standard deviation, etc. for the contents of memory
 
-    STRING            Apply Statistics.transform to STRING
+    STRING            Compute mean, standard deviation, etc. of the data in STRING
 
 Commands with arguments:
 
@@ -132,21 +95,13 @@ Examples:
     362 data points
     mean = 6.066, stdev = 9.695
     max = 25, min = -18.3
+
+    > :get w.csv regression column=5:csv column=6:csv
+
+    m = 0.853, b = -7.915, r2 = 0.867
+
 """
 
 
 
 -- HELPERS
-
-
-roundTo : Int -> Float -> Float
-roundTo n x =
-    let
-        factor =
-            10.0 ^ toFloat n
-    in
-    factor
-        * x
-        |> round
-        |> toFloat
-        |> (\u -> u / factor)
