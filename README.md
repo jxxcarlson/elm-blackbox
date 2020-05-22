@@ -82,14 +82,13 @@ file are comments explaining the nature of the data. comments
 in this form are stripped out before processing.  Data elements can be
 separated by any combination of spaces, commas, and newlines.
 
-In a word, changing what the `elm-bb` command does is as
+
+## Make elm-bb work for you
+
+Changing what the `elm-bb` command does is as
 simple as changing black boxes and recompiling.
-
-## Making elm-bb work for you
-
-To make `elm-bb` work for you, write  a module that exposes
+Just make sure that your imported module  exposes
 a `transform` function as above, and also a string `helpText`.
-Then import your module as `Blackbox`.
 
 
 ## Compilation
