@@ -3,6 +3,7 @@ port module Main exposing (main)
 import Cmd.Extra exposing (withCmd, withCmds, withNoCmd)
 import Json.Decode as D
 import Json.Encode as E
+import List.Extra
 import Platform exposing (Program)
 import Statistics as Blackbox
 
@@ -64,7 +65,7 @@ update msg model =
                         ( cmd, residualCmd ) =
                             splitCommand input
                     in
-                    commandProcessor { model | residualCommand = residualCmd } cmd
+                    commandProcessor { model | residualCommand = residualCmd } (cmd ++ " " ++ residualCmd)
 
         ReceivedDataFromJS value ->
             case decodeFileContents value of
@@ -99,20 +100,20 @@ commandProcessor model cmdString =
             List.head args
 
         arg =
-            List.drop 1 args
-                |> String.join " "
+            List.Extra.getAt 1 args
+                |> Maybe.withDefault ""
     in
-    case ( cmd, arg ) of
-        ( Just ":get", fileName ) ->
-            loadFile model fileName
+    case cmd of
+        Just ":get" ->
+            loadFile model arg
 
-        ( Just ":help", _ ) ->
+        Just ":help" ->
             model |> withCmd (put Blackbox.helpText)
 
-        ( Just ":show", _ ) ->
+        Just ":show" ->
             model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
-        ( Just ":head", _ ) ->
+        Just ":head" ->
             model
                 |> withCmd
                     (put
@@ -122,7 +123,7 @@ commandProcessor model cmdString =
                         )
                     )
 
-        ( Just ":tail", _ ) ->
+        Just ":tail" ->
             model
                 |> withCmd
                     (put
@@ -132,25 +133,22 @@ commandProcessor model cmdString =
                         )
                     )
 
-        ( Just ":app", arg_ ) ->
+        Just ":app" ->
             case model.fileContents of
                 Nothing ->
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
 
                 Just str ->
                     let
-                        arg__ =
-                            case arg_ == "" of
-                                True ->
-                                    ""
-
-                                False ->
-                                    arg_
-                                        |> (\x -> ":" ++ x ++ "\n")
+                        residualArgs =
+                            args
+                                |> List.drop 1
+                                |> String.join " "
+                                |> (\x -> ":" ++ x ++ "\n")
                     in
-                    model |> withCmd (put (Blackbox.transform <| (arg__ ++ removeComments str)))
+                    model |> withCmd (put (Blackbox.transform <| (residualArgs ++ removeComments str)))
 
-        ( _, _ ) ->
+        _ ->
             model |> withCmd (put <| Blackbox.transform (removeComments cmdString))
 
 
