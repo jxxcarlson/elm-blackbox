@@ -95,11 +95,11 @@ Type ':help' for help
 Commands:
 
    :help             help
-   :get FILE         load FILE into memory, apply BlackBox.transform to it
+   :get FILE         load FILE into memory, apply Blackbox.transform to it
    :show             show contents of memory
    :head             first five lines of memory
    :tail             last five lines of memory
-   :mem              apply BlackBox.transform to the contents of memory
+   :mem              apply Blackbox.transform to the contents of memory
 
    STRING            apply BlackBox.transform to STRING
 
@@ -123,7 +123,7 @@ Since a black box only accepts strings, the idea is to send a string of the form
 INPUT is separated into
 
 ```
-   CMD_STRING = CMD ARG1 ARG2
+   CMD_STRING = CMD ARG1 ARG2 ...
 ```
 
 and
