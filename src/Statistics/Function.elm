@@ -116,7 +116,7 @@ statistics data =
     in
     "\n"
         ++ n
-        ++ " data points\nmean = "
+        ++ " items (lines/numbers)\nmean = "
         ++ m
         ++ ", stdev = "
         ++ s

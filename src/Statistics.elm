@@ -56,9 +56,15 @@ statisticsOfString input =
             "Error: numbers must be separated by spaces and newlines"
 
         Just [] ->
-            "\n  No data processed. Maybe the file format is csv or some other format (space or tab-spaceDelimited)."
-                ++ "\n\n  Try :head to see what is in the file."
-                ++ "\n\n  You may need to say something like ':get FILENAME column=5:csv' or ':app column=5:csv'\n"
+            """
+No data processed. I suggest trying :head to examine the file.
+You may need to select parts of the data using :calc to recall what is stored in memory:
+
+    :calc col=5                    calculate statistics on column 5 of the data
+    :calc ignore=2 col=3           ignore the first 2 lines, use column 3
+    :calc rows=5:50 col=2          use rows 5 through 50, column 2
+    :calc regression col=5 col= 6  calculate regression with column 5 as independent variable.
+"""
 
         Just data ->
             SF.statistics data
@@ -72,16 +78,17 @@ helpText =
     :show             Show contents of memory
     :head             First five lines of memory
     :tail             Last five lines of memory
-    :mem              Compute mean, standard deviation, etc. for the contents of memory
+    :calc              Compute mean, standard deviation, etc. for the contents of memory
 
     STRING            Compute mean, standard deviation, etc. of the data in STRING
 
 Commands with arguments:
 
-    :get w.csv column=5:csv         Load w.csv and run statistics on column 5
-    :app column=5:csv rows=:2:32    Same, but use only rows 2 through 32
-    :get x.txt column=2:space       Space-delimited file
-    :get y.txt column=2:tab         Tab-delimited file (not yet implemented)
+    :get w.csv col=5                    Load w.csv and run statistics on column 5
+    :calc col=5 rows=2:32               Same, but use only rows 2 through 32
+    :get data2.txt col=2 ignore=1       Ignore 1 line
+
+The file format (csv, space-delimitd, tab delimited) is deduced automatically.
 
 Examples:
 
@@ -101,19 +108,19 @@ Examples:
     12.8
     3.3
 
-    > :get w.csv column=5:csv
+    > :get w.csv col=5
 
     362 data points
     mean = 16.393, stdev = 10.681
     max = 35.6, min = -11.1
 
-    > :app column=6:csv
+    > :calc column=6
 
     362 data points
     mean = 6.066, stdev = 9.695
     max = 25, min = -18.3
 
-    > :get w.csv regression column=5:csv column=6:csv
+    > :get w.csv regression col=5 col=6
 
     m = 0.853, b = -7.915, r2 = 0.867
 

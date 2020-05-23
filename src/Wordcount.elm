@@ -39,7 +39,7 @@ helpText =
     :show             show contents of memory
     :head             first five lines of memory
     :tail             last five lines of memory
-    :mem              apply BlackBox.transform to the contents of memory
+    :calc              apply BlackBox.transform to the contents of memory
 
     STRING            apply BlackBox.transform to STRING
 
@@ -53,6 +53,6 @@ Example using the default BlackBox:
     > :get src/repl.js      # load file into memory and apply transform to it
     42, 97, 863
 
-    > :app                  # apply transform to contents of memory
+    > :calc                 # calculate: pply transform to contents of memory
     42, 97, 863
 """

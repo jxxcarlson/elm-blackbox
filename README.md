@@ -100,14 +100,14 @@ Commands:
    :show             show contents of memory
    :head             first five lines of memory
    :tail             last five lines of memory
-   :mem              apply Blackbox.transform to the contents of memory
+   :calc             calculate: apply Blackbox.transform to the contents of memory
 
    STRING            apply BlackBox.transform to STRING
 
 ...
 ```
 
-The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:mem` are
+The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:calc` are
 defined in `Main.elm` and so are available regardless of what you use for the
 black box.  Comments (lines beginning with '#') are stripped out of the
 contents of memory before `Blackbox.transform` is applied.

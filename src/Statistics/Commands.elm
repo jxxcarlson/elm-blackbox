@@ -9,7 +9,7 @@ import Parser.Extras
 type Command
     = Ignore Int
     | Rows Int Int
-    | Column Int Format
+    | Column Int
     | Regression
 
 
@@ -75,10 +75,8 @@ ignore =
 column : Parser Command
 column =
     succeed Column
-        |. symbol "column="
+        |. symbol "col="
         |= int
-        |. symbol ":"
-        |= format
         |. spaces
 
 

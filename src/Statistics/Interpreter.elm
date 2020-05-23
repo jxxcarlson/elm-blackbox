@@ -14,16 +14,38 @@ execute commandList input =
             "Error: no valid commands to process"
 
         Just command ->
+            let
+                format =
+                    Maybe.map detectFormat (List.head input) |> Maybe.withDefault Space
+            in
             case command of
                 Regression ->
-                    regression (List.drop 1 commandList) input
+                    regression format (List.drop 1 commandList) input
 
                 _ ->
-                    univariate commandList input
+                    univariate format commandList input
 
 
-regression : List Command -> List String -> String
-regression commandList input =
+type Format
+    = Space
+    | Csv
+    | Tab
+
+
+detectFormat : String -> Format
+detectFormat line =
+    if String.contains "," line then
+        Csv
+
+    else if String.contains "\t" line then
+        Tab
+
+    else
+        Space
+
+
+regression : Format -> List Command -> List String -> String
+regression format commandList input =
     let
         cmd1_ =
             List.Extra.getAt 0 commandList
@@ -44,10 +66,10 @@ regression commandList input =
         ( Just cmd1, Just cmd2 ) ->
             let
                 xs =
-                    prepareData (cmd1 :: args) input
+                    prepareData format (cmd1 :: args) input
 
                 ys =
-                    prepareData (cmd2 :: args) input
+                    prepareData format (cmd2 :: args) input
 
                 r =
                     SF.regressionData xs ys
@@ -60,25 +82,25 @@ show x =
     x |> Utility.roundTo 3 |> String.fromFloat
 
 
-univariate : List Command -> List String -> String
-univariate commandList input =
-    prepareData commandList input
+univariate : Format -> List Command -> List String -> String
+univariate format commandList input =
+    prepareData format commandList input
         |> SF.statistics
 
 
-prepareData : List Command -> List String -> List Float
-prepareData commandList input =
+prepareData : Format -> List Command -> List String -> List Float
+prepareData format commandList input =
     (let
         folder =
-            \cmd list -> executeCmd cmd list
+            \cmd list -> executeCmd format cmd list
      in
      List.foldl folder input commandList
     )
         |> List.map (String.toFloat >> Maybe.withDefault 0)
 
 
-executeCmd : Command -> List String -> List String
-executeCmd command list =
+executeCmd : Format -> Command -> List String -> List String
+executeCmd format command list =
     case command of
         Regression ->
             list
@@ -89,7 +111,7 @@ executeCmd command list =
         Rows a b ->
             sliceList (a - 1) (b - 1) list
 
-        Column k format ->
+        Column k ->
             case format of
                 Csv ->
                     let
@@ -105,6 +127,11 @@ executeCmd command list =
                             (String.split " "
                                 >> List.filter (\x -> x /= "")
                             )
+                        |> List.map (getItem (k - 1))
+
+                Tab ->
+                    list
+                        |> List.map (String.split "\t")
                         |> List.map (getItem (k - 1))
 
 

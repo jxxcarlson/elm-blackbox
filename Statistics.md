@@ -1,5 +1,5 @@
 
-# The Statistics black box 
+# The Statistics black box
 
 If you say `import Statistics as Blackbox`, the repl will compute statistics
 
@@ -27,7 +27,7 @@ If you say `import Statistics as Blackbox`, the repl will compute statistics
     mean = 16.393, stdev = 10.681
     max = 35.6, min = -11.1
 
-    > :mem column=6:csv
+    > :calc column=6:csv
 
     362 data points
     mean = 6.066, stdev = 9.695

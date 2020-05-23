@@ -118,9 +118,9 @@ processCommand model cmdString =
                 |> withCmd
                     (put (tailOfFile model))
 
-        Just ":mem" ->
+        Just ":calc" ->
             -- Apply Blackbox.transform with residual arguments to the contents of memory
-            -- E.g, if the input is ":mem column=5:csv" then residualArgs = ":column=5:csv"
+            -- E.g, if the input is ":calc column=5:csv" then residualArgs = ":column=5:csv"
             case model.fileContents of
                 Nothing ->
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
@@ -128,7 +128,7 @@ processCommand model cmdString =
                 Just str ->
                     let
                         residualArgs =
-                            case args == [ ":mem" ] of
+                            case args == [ ":calc" ] of
                                 True ->
                                     ""
 
