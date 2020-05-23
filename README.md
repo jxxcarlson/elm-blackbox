@@ -1,7 +1,7 @@
 # Elm-blackbox
 
-Elm-blackbox provides a repl for talking to Elm code
-(the black box) that takes a string as input and produces a string
+Elm-blackbox provides a repl for talking to Elm code in the form of a
+"black box" that takes a string as input and produces a string
 as output. You determine what the repl does by importing
 a function
 
