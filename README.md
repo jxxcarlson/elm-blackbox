@@ -52,7 +52,8 @@ If you say `import Factor as Blackbox`, the repl will factor integers into prime
 
 ### Statistics
 
-The Statistics black box is more elaborate.  See *Statistics.md*.
+The Statistics black box (mean, standard deviation, regression)
+is more elaborate.  See *Statistics.md*.
 
 ## Make elm-bb work for you
 
