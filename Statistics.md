@@ -23,7 +23,7 @@ If you say `import Statistics as Blackbox`, the repl will compute statistics
 
     > :get w.csv col=5
 
-    362 data points
+    362 items (lines/numbers)
     mean = 16.393, stdev = 10.681
     max = 35.6, min = -11.1
 
