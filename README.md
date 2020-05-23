@@ -6,7 +6,7 @@ as output. You determine what the repl does by importing
 a function
 
 ```elm
-    transform : String -> String
+    Blackbox.transform : String -> String
 ```
 
 in module `Main`.   Below are three examples of what one can do
@@ -66,7 +66,7 @@ a `transform` function as above, and also a string `helpText`.
 
 **Prerequisite:** you must have `node.js` installed
 
-To compile `elm-bb` just run `sh make.sh`.  To use your build locally,
+To compile `elm-bb`, run `sh make.sh`.  To use your build locally,
 run `node src/elm.repl`.
 
 If you use npm, you can compile with `npm run build` and run locally with `npm start`
