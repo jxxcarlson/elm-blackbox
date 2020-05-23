@@ -141,7 +141,7 @@ on the wisdom of this approach.  On the one hand, it enables one to build
 more complex apps with black boxes that do nothing more than receive strings,
 compute, and send strings back.  On the other hand, it is definitely hackish.
 
-In this experiment I wanted to see how far I could get with this simple model.  It is
+In this experiment I wanted to see how far I could get with such a simple model.  It is
 definitely OK for some applications. One can always design a `repl.js` and a `Main.elm`
 that exchange a more complex data structure.
 
