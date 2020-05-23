@@ -89,11 +89,17 @@ If you say `import Statistics as Blackbox`, the repl will compute statistics
     m = 0.853, b = -7.915, r2 = 0.867    
 ```
 
-The file `nyc2019.txt` contains temperature data. Note the
+The file `data1.txt` contains temperature data as a single column. Note the
 result of the `:head` command.  The first two lines of the
-file are comments explaining the nature of the data. comments
+file are comments explaining the nature of the data. Comments
 in this form are stripped out before processing.  Data elements can be
 separated by any combination of spaces, commas, and newlines.
+
+### Test files 
+
+The  files `data2.txt` and `data2.csv` have two columns of data. In the first,
+items in a row are separated by spaces.  In the second, they are separated
+by commas.  The file `w.csv` contains temperature data from NOAA.
 
 
 ## Make elm-bb work for you
