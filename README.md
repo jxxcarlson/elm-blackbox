@@ -78,7 +78,7 @@ If you say `import Statistics as Blackbox`, the repl will compute statistics
     mean = 16.393, stdev = 10.681
     max = 35.6, min = -11.1
 
-    > :app column=6:csv
+    > :mem column=6:csv
 
     362 data points
     mean = 6.066, stdev = 9.695
@@ -141,14 +141,14 @@ Commands:
    :show             show contents of memory
    :head             first five lines of memory
    :tail             last five lines of memory
-   :app              apply BlackBox.transform to the contents of memory
+   :mem              apply BlackBox.transform to the contents of memory
 
    STRING            apply BlackBox.transform to STRING
 
 ...
 ```
 
-The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:app` are
+The commands `:help`, `:get`, `:show`, `:head`, `:tail`, and `:mem` are
 defined in `Main.elm` and so are available regardless of what you use for the
 black box.  Comments (lines beginning with '#') are stripped out of the
 contents of memory before `Blackbox.transform` is applied.

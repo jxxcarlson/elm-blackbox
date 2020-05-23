@@ -61,11 +61,7 @@ update msg model =
                     model |> withNoCmd
 
                 False ->
-                    let
-                        ( cmd, residualCmd ) =
-                            splitCommand input
-                    in
-                    commandProcessor { model | residualCommand = residualCmd } (cmd ++ " " ++ residualCmd)
+                    processCommand { model | residualCommand = getResidualCmd input } input
 
         ReceivedDataFromJS value ->
             case decodeFileContents value of
@@ -74,22 +70,21 @@ update msg model =
 
                 Just data ->
                     let
-                        cleanData =
-                            removeComments data
-
                         input =
+                            -- If there is a residual command, prepend it to the
+                            -- input before sending the input to the black box.
                             case model.residualCommand == "" of
                                 True ->
-                                    cleanData
+                                    removeComments data
 
                                 False ->
-                                    ":" ++ model.residualCommand ++ " " ++ cleanData
+                                    ":" ++ model.residualCommand ++ " " ++ removeComments data
                     in
                     { model | fileContents = Just data } |> withCmd (put <| Blackbox.transform input)
 
 
-commandProcessor : Model -> String -> ( Model, Cmd Msg )
-commandProcessor model cmdString =
+processCommand : Model -> String -> ( Model, Cmd Msg )
+processCommand model cmdString =
     let
         args =
             String.split " " cmdString
@@ -104,11 +99,11 @@ commandProcessor model cmdString =
                 |> Maybe.withDefault ""
     in
     case cmd of
-        Just ":get" ->
-            loadFile model arg
-
         Just ":help" ->
             model |> withCmd (put Blackbox.helpText)
+
+        Just ":get" ->
+            loadFile model arg
 
         Just ":show" ->
             model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
@@ -116,24 +111,16 @@ commandProcessor model cmdString =
         Just ":head" ->
             model
                 |> withCmd
-                    (put
-                        (model.fileContents
-                            |> Maybe.map (head 5)
-                            |> Maybe.withDefault "no file loaded"
-                        )
-                    )
+                    (put (headOfFile model))
 
         Just ":tail" ->
             model
                 |> withCmd
-                    (put
-                        (model.fileContents
-                            |> Maybe.map (tail 5)
-                            |> Maybe.withDefault "no file loaded"
-                        )
-                    )
+                    (put (tailOfFile model))
 
-        Just ":app" ->
+        Just ":mem" ->
+            -- Apply Blackbox.transform with residual arguments to the contents of memory
+            -- E.g, if the input is ":mem column=5:csv" then residualArgs = ":column=5:csv"
             case model.fileContents of
                 Nothing ->
                     model |> withCmd (put (model.fileContents |> Maybe.withDefault "no file loaded"))
@@ -141,10 +128,15 @@ commandProcessor model cmdString =
                 Just str ->
                     let
                         residualArgs =
-                            args
-                                |> List.drop 1
-                                |> String.join " "
-                                |> (\x -> ":" ++ x ++ "\n")
+                            case args == [ ":mem" ] of
+                                True ->
+                                    ""
+
+                                False ->
+                                    args
+                                        |> List.drop 1
+                                        |> String.join " "
+                                        |> (\x -> ":" ++ x ++ "\n")
                     in
                     model |> withCmd (put (Blackbox.transform <| (residualArgs ++ removeComments str)))
 
@@ -179,26 +171,30 @@ decodeFileContents value =
 -- HELPERS
 
 
-splitCommand : String -> ( String, String )
-splitCommand input =
+{-| This is used in the context
+
+:get FILENAME xxx yyy zzz
+
+in which xxx yyy zzzz is the command to be
+applied to the contents of FILENAME once
+it is received.
+
+-}
+getResidualCmd : String -> String
+getResidualCmd input =
     let
         args =
             input
                 |> String.split " "
                 |> List.filter (\s -> s /= "")
-
-        residualCmd =
-            args
-                |> List.drop 2
-                |> String.join " "
-
-        cmd =
-            args
-                |> List.take 2
-                |> String.join " "
-                |> String.trim
     in
-    ( cmd, residualCmd )
+    args
+        |> List.drop 2
+        |> String.join " "
+
+
+
+-- FILE/CONTENT OPERATIONS
 
 
 removeComments : String -> String
@@ -208,6 +204,18 @@ removeComments input =
         |> List.filter (\line -> String.left 1 line /= "#")
         |> String.join "\n"
         |> String.trim
+
+
+headOfFile model =
+    model.fileContents
+        |> Maybe.map (head 5)
+        |> Maybe.withDefault "no file loaded"
+
+
+tailOfFile model =
+    model.fileContents
+        |> Maybe.map (tail 5)
+        |> Maybe.withDefault "no file loaded"
 
 
 head : Int -> String -> String

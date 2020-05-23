@@ -11,7 +11,7 @@ execute : List Command -> List String -> String
 execute commandList input =
     case List.head commandList of
         Nothing ->
-            "Error: no commands to process"
+            "Error: no valid commands to process"
 
         Just command ->
             case command of

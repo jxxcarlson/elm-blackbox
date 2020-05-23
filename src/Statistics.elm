@@ -1,10 +1,14 @@
-module Statistics exposing (helpText, transform)
+module Statistics exposing (helpText, identify, transform)
 
 import List.Extra
 import Statistics.Commands as Commands
 import Statistics.Function as SF
 import Statistics.Interpreter as Interpreter
 import Statistics.ParseData as ParseData
+
+
+identify =
+    "Black box = Statistics"
 
 
 transform : String -> String
@@ -68,7 +72,7 @@ helpText =
     :show             Show contents of memory
     :head             First five lines of memory
     :tail             Last five lines of memory
-    :app              Compute mean, standard deviation, etc. for the contents of memory
+    :mem              Compute mean, standard deviation, etc. for the contents of memory
 
     STRING            Compute mean, standard deviation, etc. of the data in STRING
 

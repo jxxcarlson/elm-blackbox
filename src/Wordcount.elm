@@ -39,7 +39,7 @@ helpText =
     :show             show contents of memory
     :head             first five lines of memory
     :tail             last five lines of memory
-    :app              apply BlackBox.transform to the contents of memory
+    :mem              apply BlackBox.transform to the contents of memory
 
     STRING            apply BlackBox.transform to STRING
 

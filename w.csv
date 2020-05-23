@@ -1,3 +1,5 @@
+# Maximum daily temperatures for New York City, 2019
+# Source: https://www.climate.gov/maps-data/dataset/past-weather-zip-code-data-table
 "STATION","NAME","DATE","TAVG","TMAX","TMIN","TOBS"
 "USC00280907","BOONTON 1 SE, NJ US","2019-01-01","--","11.7","-2.8","11.1"
 "USC00280907","BOONTON 1 SE, NJ US","2019-01-02","--","12.8","0.0","0.6"
