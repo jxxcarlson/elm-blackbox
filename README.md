@@ -36,7 +36,7 @@ Then the repl acts like an implementation  of Unix `wc`:
 Note that `elm-bb` is the command you use start the repl.
 
 
-## Factoring integers
+### Factoring integers
 
 If you say `import Factor as Blackbox`, the repl will factor integers into primes.
 
@@ -50,7 +50,7 @@ If you say `import Factor as Blackbox`, the repl will factor integers into prime
     293
 ```
 
-## Statistics
+### Statistics
 
 The Statistics black box is more elaborate.  See *Statistics.md*.
 
