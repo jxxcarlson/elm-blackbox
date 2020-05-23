@@ -58,7 +58,7 @@ The Statistics black box is more elaborate.  See *Statistics.md*.
 
 Changing what the `elm-bb` command does is as
 simple as changing black boxes and recompiling.
-Just make sure that your imported module  exposes
+Just make sure that you import your module as `Blackbox` and that it exposes
 a `transform` function as above, and also a string `helpText`.
 
 
