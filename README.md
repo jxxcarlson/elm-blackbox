@@ -134,7 +134,9 @@ and
 ```
 
 The leading colon singles out INPUT for special handling.  As an example
-of this feature, see the `Statistics` black box.  I am of mixed opinion
+of this feature, see the `Statistics` black box.  
+
+I am of mixed opinion
 on the wisdom of this approach.  On the one hand, it enables one to build
 more complex apps with black boxes that do nothing more than receive strings,
 compute, and send strings back.  On the other hand, it is definitely hackish.
