@@ -1,0 +1,5 @@
+scripts:
+
+  make: elm make src/Main.elm --output=src/main.js
+
+  run-it: elm make src/Main.elm --output=src/main.js
